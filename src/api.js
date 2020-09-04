@@ -8,6 +8,6 @@ router.get('/members', (req, res) => {
   res.json({ hello: 'hi' });
 });
 
-app.use('/api', router);
+app.use('/.netlify/functions/api', router);
 
 module.exports.handler = serverless(app);
