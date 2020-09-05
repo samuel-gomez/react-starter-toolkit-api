@@ -41,6 +41,6 @@ router.get('/members', (req, res) => {
     .then((data) => res.json(setResponseValid({ data })));
 });
 
-app.use('/.netlify/functions/api', router);
+app.use('/api', router);
 
 module.exports.handler = serverless(app);
