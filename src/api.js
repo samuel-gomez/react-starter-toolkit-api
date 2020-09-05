@@ -3,7 +3,7 @@ const serverless = require('serverless-http');
 const bodyParser = require('body-parser');
 const FormData = require('form-data');
 const cors = require('cors');
-const fetch = require('node-fetch');
+const fetch = require('node-fetch').default;
 
 const app = express();
 const router = express.Router();
