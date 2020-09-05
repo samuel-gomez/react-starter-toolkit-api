@@ -2,7 +2,9 @@
     functions = "functions"
 [[redirects]]
   from = "/api/*"
-  to = "/.netlify/functions/:splat"
+  to = "/.netlify/functions/api/:splat"
+  force = true
+  headers = {X-From = "Netlify"}
   status = 200
 [[plugins]]
   package = "@netlify/plugin-functions-install-core"
