@@ -32,13 +32,45 @@ app.use((req, res, next) => {
 });
 
 router.get('/members', (req, res) => {
-  const { max, skip } = req.query;
+  const { max, skip, sort, dir } = req.query;
   fetch(
-    `https://startertoolkitreact-82ed.restdb.io/rest/members?q={}&max=${max}&skip=${skip}`,
+    `https://startertoolkitreact-82ed.restdb.io/rest/members?q={}&max=${max}&skip=${skip}&sort=${sort}&dir=${dir}`,
     options,
   )
     .then((res) => res.json())
     .then((data) => res.json(setResponseValid({ data })));
+});
+
+router.route('/login').post((req, res) => {
+  const { client_id, redirect_uri, client_secret, code } = req.body;
+
+  const data = new FormData();
+  data.append('client_id', client_id);
+  data.append('client_secret', client_secret);
+  data.append('code', code);
+  data.append('redirect_uri', redirect_uri);
+
+  fetch('https://github.com/login/oauth/access_token', {
+    method: 'POST',
+    body: data,
+  })
+    .then((response) => response.text())
+    .then((paramsString) => {
+      const params = new URLSearchParams(paramsString);
+      const access_token = params.get('access_token');
+      const scope = params.get('scope');
+      const token_type = params.get('token_type');
+      return fetch(
+        `https://api.github.com/user?access_token=${access_token}&scope=${scope}&token_type=${token_type}`,
+      );
+    })
+    .then((response) => response.json())
+    .then((response) => {
+      return res.status(200).json(response);
+    })
+    .catch((error) => {
+      return res.status(400).json(error);
+    });
 });
 
 app.use('/api', router);
