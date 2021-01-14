@@ -48,6 +48,17 @@ router.get("/members", async (req, res) => {
   res.json(setResponseValid({ data: membersJson }));
 });
 
+router.get("/people", async (req, res) => {
+  const baseRoute = `${API_URL}/people`;
+  const members = await fetch(
+    `${baseRoute}`,
+    options,
+  );
+  const membersJson = await members.json();
+
+  res.json(setResponseValid({ data: membersJson }));
+});
+
 router.route("/login").post((req, res) => {
   const { client_id, redirect_uri, client_secret, code } = req.body;
 
