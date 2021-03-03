@@ -7,8 +7,6 @@ const fetch = require("node-fetch").default;
 
 const { API_URL, API_KEY } = process.env;
 
-const baseUrl = "https://startertoolkitreact-82ed.restdb.io/rest";
-
 const app = express();
 const router = express.Router();
 
@@ -38,7 +36,6 @@ app.use((req, res, next) => {
 router.get("/members", async (req, res) => {
   const { max, skip, sort, dir } = req.query;
   const baseRoute = `${API_URL}/members`;
-  console.log("API : ", API_URL, API_KEY);
   const members = await fetch(
     `${baseRoute}?totals=true&q={}&max=${max}&skip=${skip}&sort=${sort}&dir=${dir}`,
     options,
@@ -48,12 +45,21 @@ router.get("/members", async (req, res) => {
   res.json(setResponseValid({ data: membersJson }));
 });
 
-router.get("/people", async (req, res) => {
-  const baseRoute = `${API_URL}/people`;
+router.post("/members", async (req, res) => {
+  const { name } = req.body;
+  const baseRoute = `${API_URL}/members`;
   const members = await fetch(
-    `${baseRoute}`,
+    `${baseRoute}?q={ "$or": [ { "firstname": {"$regex" :"${name}"} }, { "lastname": {"$regex" :"${name}"} } ] }`,
     options,
   );
+  const membersJson = await members.json();
+
+  res.json(setResponseValid({ data: membersJson }));
+});
+
+router.get("/people", async (req, res) => {
+  const baseRoute = `${API_URL}/people`;
+  const members = await fetch(`${baseRoute}`, options);
   const membersJson = await members.json();
 
   res.json(setResponseValid({ data: membersJson }));
