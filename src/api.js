@@ -1,9 +1,9 @@
-const express = require("express");
-const serverless = require("serverless-http");
-const bodyParser = require("body-parser");
-const FormData = require("form-data");
-const cors = require("cors");
-const fetch = require("node-fetch").default;
+import express from 'express';
+import serverless from 'serverless-http';
+import bodyParser from 'body-parser';
+import FormData from 'form-data';
+import cors from 'cors'; 
+import axios from 'axios'; 
 
 const { API_URL, API_KEY } = process.env;
 
@@ -36,33 +36,31 @@ app.use((req, res, next) => {
 router.get("/members", async (req, res) => {
   const { max, skip, sort, dir } = req.query;
   const baseRoute = `${API_URL}/members`;
-  const members = await fetch(
+  const { data } = await axios(
     `${baseRoute}?totals=true&q={}&max=${max}&skip=${skip}&sort=${sort}&dir=${dir}`,
     options,
   );
-  const membersJson = await members.json();
 
-  res.json(setResponseValid({ data: membersJson }));
+  res.json(setResponseValid({ data }));
 });
 
 router.post("/members", async (req, res) => {
   const { name } = req.body;
   const baseRoute = `${API_URL}/members`;
-  const members = await fetch(
+  const { data } = await axios(
     `${baseRoute}?q={ "$or": [ { "firstname": {"$regex" :"${name}"} }, { "lastname": {"$regex" :"${name}"} } ] }`,
     options,
-  );
-  const membersJson = await members.json();
+  ); 
 
-  res.json(setResponseValid({ data: membersJson }));
+  res.json(setResponseValid({ data }));
 });
 
 router.get("/people", async (req, res) => {
   const baseRoute = `${API_URL}/people`;
-  const members = await fetch(`${baseRoute}`, options);
-  const membersJson = await members.json();
+  const { data } = await axios(`${baseRoute}`, options);
+ 
 
-  res.json(setResponseValid({ data: membersJson }));
+  res.json(setResponseValid({ data }));
 });
 
 router.route("/login").post((req, res) => {
@@ -74,7 +72,7 @@ router.route("/login").post((req, res) => {
   data.append("code", code);
   data.append("redirect_uri", redirect_uri);
 
-  fetch("https://github.com/login/oauth/access_token", {
+  axios("https://github.com/login/oauth/access_token", {
     method: "POST",
     body: data,
   })
@@ -84,7 +82,7 @@ router.route("/login").post((req, res) => {
       const access_token = params.get("access_token");
       const scope = params.get("scope");
       const token_type = params.get("token_type");
-      return fetch(
+      return axios(
         `https://api.github.com/user?access_token=${access_token}&scope=${scope}&token_type=${token_type}`,
       );
     })
@@ -99,4 +97,5 @@ router.route("/login").post((req, res) => {
 
 app.use("/api", router);
 
-module.exports.handler = serverless(app);
+export const handler = serverless(app);
+
