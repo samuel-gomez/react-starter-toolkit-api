@@ -18,8 +18,8 @@ app.use((req, res, next) => {
 });
 
 router.get("/members", members);
+router.get("/members/search", membersSearch);
 router.get("/members/:id", membersDetail);
-router.post("/members/search", membersSearch);
 
 router.get("/people", people);
 
