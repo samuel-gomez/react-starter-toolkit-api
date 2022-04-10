@@ -4,8 +4,8 @@ import { baseRoute } from "./constants";
 import { MESSAGES, TIMEOUT, options } from "../constants.js";
 
 const MembersSearch = async (req, res) => {
-  const { body } = req;
-  const { name = '404' } = body;
+  const { query } = req;
+  const { name = '404' } = query;
   
   setTimeout(async () => {
     if (name === '400') {
