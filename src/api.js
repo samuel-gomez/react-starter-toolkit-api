@@ -10,7 +10,7 @@ const API = 'api/';
 const app = express();
 const router = express.Router();
 
-app.use(express.static(`${API}/public`));
+app.use(express.static(`${API}/dist`));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
