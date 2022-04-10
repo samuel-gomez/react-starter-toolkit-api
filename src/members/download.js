@@ -1,3 +1,4 @@
+import path from 'path';
 import {  setResponseInvalid, TIMEOUT, TIMEOUTOVER } from "../utils";
 
 const downloadDetails = (req, res) => {
@@ -13,7 +14,12 @@ const downloadDetails = (req, res) => {
         res.status(404).send(setResponseInvalid({ code: 404 }));
         break;
       default:
-        res.sendFile('details.csv', { root: 'dist' });
+          console.log(process.env.NODE_ENV)
+        res.sendFile('details.csv', { root: process.env.NODE_ENV === 'development' ? 'dist' : '' });
+       /*  const pathFile = path.join(__dirname, 'details.csv');
+        console.log('pathFile', pathFile)
+        res.sendFile(pathFile); */
+        
         break;
     }
   }, timeOut);
