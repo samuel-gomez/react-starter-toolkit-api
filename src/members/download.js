@@ -14,7 +14,7 @@ const downloadDetails = (req, res) => {
         res.status(404).send(setResponseInvalid({ code: 404 }));
         break;
       default:         
-        res.sendFile('details.csv', { root: process.env.NODE_ENV === 'development' ? 'dist' : '.' });        
+        res.sendFile('details.csv', { root: process.env.NODE_ENV === 'development' ? 'dist' : './' });        
         break;
     }
   }, timeOut);
