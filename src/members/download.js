@@ -13,7 +13,7 @@ const downloadDetails = (req, res) => {
         res.status(404).send(setResponseInvalid({ code: 404 }));
         break;
       default:
-        res.sendFile('details.csv', { root: 'public' });
+        res.sendFile('details.csv', { root: 'dist' });
         break;
     }
   }, timeOut);
