@@ -20,6 +20,10 @@ const Members = async (req, res) => {
       res
         .status(404)
         .send(setResponseInvalid({ code: 404, detail: MESSAGES.NOT_FOUND }));
+    } else if (headers.testmock === "403") {
+      res
+        .status(403)
+        .send(setResponseInvalid({ code: 403, detail: MESSAGES.SERVOR_UNAUTHORIZED }));
     } else if (headers.testmock === "0") {
       res.send(setResponseValid({ data: [] }));
     } else {

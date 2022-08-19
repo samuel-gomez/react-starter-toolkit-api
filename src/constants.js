@@ -16,4 +16,5 @@ export const MESSAGES = {
     BAD_REQUEST: 'Erreur : format incorrect',
     NOT_FOUND: 'Erreur : Element introuvable',
     SERVOR_ERROR: 'Erreur technique, contacter le support',
+    SERVOR_UNAUTHORIZED: 'Erreur : not authorized',
 }
