@@ -20,6 +20,9 @@ const MembersSearch = async (req, res) => {
       res
         .status(404)
         .send(setResponseInvalid({ code: 404, label: MESSAGES.NOT_FOUND }));
+    } else if (name === "empty") {
+      res        
+        .send(setResponseValid({ data: [] }));
     } else {
       const { data } = await axios(
         `${baseRoute}?q={ "$or": [ { "firstname": {"$regex" :"${name}"} }, { "lastname": {"$regex" :"${name}"} } ] }`,
