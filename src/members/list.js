@@ -20,7 +20,7 @@ const Members = async (req, res) => {
       res
         .status(404)
         .send(setResponseInvalid({ code: 404, detail: MESSAGES.NOT_FOUND }));
-    } else if (headers.testmock === "empty") {
+    } else if (headers.testmock === "0") {
       res.send(setResponseValid({ data: [] }));
     } else {
       const { data } = await axios(
