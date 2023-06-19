@@ -30,6 +30,6 @@
     "netlify-lambda": "2.0.15",
     "path": "^0.12.7",
     "serve": "^13.0.2",
-    "serverless-http": "3.0.1"
+    "serverless-http": "3.2.0"
   }
 }
